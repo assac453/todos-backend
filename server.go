@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"test-api/controller"
 	"test-api/entity"
+	"test-api/middleware"
 	"test-api/service"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +16,8 @@ var (
 )
 
 func main() {
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Logger(), gin.Recovery(), middleware.CORSMiddleware())
 	r.GET("/todos", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, todoController.GetAll())
 	})
